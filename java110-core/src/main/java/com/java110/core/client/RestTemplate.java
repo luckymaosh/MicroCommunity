@@ -35,9 +35,13 @@ public class RestTemplate extends org.springframework.web.client.RestTemplate {
     public <T> ResponseEntity<T> exchange(String url, HttpMethod method,
                                           HttpEntity<?> requestEntity, Class<T> responseType, Object... uriVariables) throws RestClientException {
 
-        logger.debug("请求信息：url:{},method:{},request:{},uriVariables:{}",url,method,requestEntity,uriVariables);
+        if (logger.isDebugEnabled()) {
+            logger.debug("请求信息：url:{},method:{},request:{},uriVariables:{}", url, method, requestEntity, uriVariables);
+        }
         ResponseEntity<T> responseEntity = super.exchange(url, method, requestEntity, responseType, uriVariables);
-        logger.debug("返回信息：responseEntity:{}",responseEntity);
+        if (logger.isDebugEnabled()) {
+            logger.debug("返回信息：responseEntity:{}", responseEntity);
+        }
 
         return responseEntity;
     }

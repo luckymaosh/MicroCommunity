@@ -28,8 +28,9 @@ public abstract class AbstractComponentSMO extends BaseComponentSMO {
     protected final ResponseEntity<String> businessProcess(IPageData pd) {
 
         JSONObject paramIn = JSONObject.parseObject(pd.getReqData());
-
-        logger.debug("businessProcess: pd=" + JSONObject.toJSONString(pd));
+        if (logger.isDebugEnabled()) {
+            logger.debug("businessProcess: pd=" + JSONObject.toJSONString(pd));
+        }
 
 
         //业务数据校验

@@ -19,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.Charset;
 
-
 /**
  * spring boot 初始化启动类
  *
@@ -30,17 +29,16 @@ import java.nio.charset.Charset;
  * @tag
  */
 @SpringBootApplication(scanBasePackages = {"com.java110.service", "com.java110.report",
-        "com.java110.core", "com.java110.cache", "com.java110.config.properties.code", "com.java110.db"},
-        exclude = {LiquibaseAutoConfiguration.class,
-                org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class})
+    "com.java110.core", "com.java110.cache", "com.java110.config.properties.code", "com.java110.db"},
+    exclude = {LiquibaseAutoConfiguration.class,
+        org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class})
 @EnableDiscoveryClient
 @Java110ListenerDiscovery(listenerPublishClass = BusinessServiceDataFlowEventPublishing.class,
-        basePackages = {"com.java110.report.listener"})
+    basePackages = {"com.java110.report.listener"})
 @EnableFeignClients(basePackages = {"com.java110.core.smo.user"})
 public class ReportServiceApplicationStart {
 
-    private static Logger logger = LoggerFactory.getLogger(ReportServiceApplicationStart.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(ReportServiceApplicationStart.class);
 
     /**
      * 实例化RestTemplate，通过@LoadBalanced注解开启均衡负载能力.
@@ -51,8 +49,7 @@ public class ReportServiceApplicationStart {
     @LoadBalanced
     public RestTemplate restTemplate() {
         StringHttpMessageConverter m = new StringHttpMessageConverter(Charset.forName("UTF-8"));
-        RestTemplate restTemplate = new RestTemplateBuilder().additionalMessageConverters(m).build();
-        return restTemplate;
+        return new RestTemplateBuilder().additionalMessageConverters(m).build();
     }
 
     /**
@@ -63,7 +60,8 @@ public class ReportServiceApplicationStart {
     @Bean
     public com.java110.core.client.RestTemplate restTemplateNoLoadBalanced() {
         StringHttpMessageConverter m = new StringHttpMessageConverter(Charset.forName("UTF-8"));
-        com.java110.core.client.RestTemplate restTemplate = new RestTemplateBuilder().additionalMessageConverters(m).build(com.java110.core.client.RestTemplate.class);
+        com.java110.core.client.RestTemplate restTemplate = new RestTemplateBuilder().additionalMessageConverters(m)
+            .build(com.java110.core.client.RestTemplate.class);
         return restTemplate;
     }
 
